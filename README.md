@@ -20,7 +20,7 @@ However, if step (2) is not idempotent and only step (3) fails, we find ourselve
 
 The Outbox Pattern solves this problem by moving the event publisher into an outbox processor. The command service then updates the entity and adds a record to the outbox messages in the same transaction. The outbox processor will poll this outbox messages for any unprocessed messages, and publish them as they arrive. This is illustrated in the diagram below:
 
-![](docs\OutboxPatternDiagram.png)
+![](\docs\OutboxPatternDiagram.png)
 
 ## This project
 
