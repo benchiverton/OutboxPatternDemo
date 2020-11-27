@@ -1,3 +1,5 @@
+![Build All](https://github.com/benchiverton/OutboxPatternDemo/workflows/Build%20All/badge.svg)
+
 # Outbox Pattern Demo
 
 This project contains a basic implementation of the Outbox Pattern in C#.
@@ -18,7 +20,7 @@ However, if step (2) is not idempotent and only step (3) fails, we find ourselve
 
 The Outbox Pattern solves this problem by moving the event publisher into an outbox processor. The command service then updates the entity and adds a record to the outbox messages in the same transaction. The outbox processor will poll this outbox messages for any unprocessed messages, and publish them as they arrive. This is illustrated in the diagram below:
 
-![](C:\Projects\OutboxPatternDemo\docs\OutboxPatternDiagram.png)
+![](docs\OutboxPatternDiagram.png)
 
 ## This project
 
@@ -32,7 +34,7 @@ This project demo's the Outbox Pattern using NServiceBus (In Memory) and EntityF
 
 ### Getting started
 
-All of the code is in the `src` folder. It requires dotnet 5 to run.
+All of the code is in the `src` folder. It requires the dotnet 5 SDK to run.
 
 #### NServiceBus
 
