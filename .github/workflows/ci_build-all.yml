@@ -24,8 +24,8 @@ jobs:
       with:
         dotnet-version: 5.0.100
     - name: Install dependencies
-      run: dotnet restore src/OutboxPattern.Demo.sln
+      run: dotnet restore src/OutboxPatternDemo.sln
     - name: Build
-      run: dotnet build src/OutboxPattern.Demo.sln --configuration Release --no-restore
+      run: dotnet build src/OutboxPatternDemo.sln --configuration Release --no-restore
     # - name: Test
     #   run: dotnet test src/OutboxPattern.Demo.sln --no-restore --verbosity normal
