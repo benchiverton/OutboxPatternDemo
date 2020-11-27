@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using OutboxPatternDemo.Publisher.Contract.Models;
 
 namespace OutboxPatternDemo.Publisher.BusinessEntityServices.Data

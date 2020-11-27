@@ -4,15 +4,15 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
 {
-    public class TtlDistributedCacheDuplicateChecker : IDuplicateChecker
+    public class DistributedCacheDuplicateChecker : IDuplicateChecker
     {
         private readonly IDistributedCache _cache;
         private readonly DistributedCacheEntryOptions _cacheOptions;
 
         /// <summary>
-        /// Duplicate checker that verifies IsDuplicate has not been called with the given Id within the configured timespan
+        /// Returns true when a duplicate is received within the configured timespan
         /// </summary>
-        public TtlDistributedCacheDuplicateChecker(IDistributedCache cache, TimeSpan slidingExpiration)
+        public DistributedCacheDuplicateChecker(IDistributedCache cache, TimeSpan slidingExpiration)
         {
             _cache = cache;
             _cacheOptions = new DistributedCacheEntryOptions
