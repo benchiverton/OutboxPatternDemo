@@ -5,12 +5,12 @@ on:
     branches: [ master ]
     paths:
     - 'src/**'
-    - '.github/workflows/ci_build-all.yml'
+    - '.github/workflows/ci_build-and-test-all.yml'
   pull_request:
     branches: [ master ]
     paths:
     - 'src/**'
-    - '.github/workflows/ci_build-all.yml'
+    - '.github/workflows/ci_build-and-test-all.yml'
 
 jobs:
   build:
@@ -27,5 +27,5 @@ jobs:
       run: dotnet restore src/OutboxPatternDemo.sln
     - name: Build
       run: dotnet build src/OutboxPatternDemo.sln --configuration Release --no-restore
-    # - name: Test
-    #   run: dotnet test src/OutboxPattern.Demo.sln --no-restore --verbosity normal
+    - name: Test
+      run: dotnet test src/OutboxPatternDemo.sln --no-restore --verbosity normal
