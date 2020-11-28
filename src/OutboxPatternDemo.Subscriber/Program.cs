@@ -32,7 +32,7 @@ namespace OutboxPatternDemo.Subscriber
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((host, services) =>
                 {
-                    var duplicateCheckerType = "Sql";
+                    var duplicateCheckerType = "CircularBuffer";
 
                     switch (duplicateCheckerType)
                     {
@@ -41,6 +41,9 @@ namespace OutboxPatternDemo.Subscriber
                             break;
                         case "Sql":
                             SetupSqlDuplicateChecker(services);
+                            break;
+                        case "CircularBuffer":
+                            SetupCircularBufferDuplicateChecker(services);
                             break;
                         default:
                             throw new NotImplementedException();
@@ -79,5 +82,8 @@ namespace OutboxPatternDemo.Subscriber
             services.AddDbContext<DuplicateKeyContext>(o => o.UseSqlite(connection));
             services.AddTransient<IDuplicateChecker, SqlDuplicateChecker>();
         }
+
+        private static void SetupCircularBufferDuplicateChecker(IServiceCollection services)
+            => services.AddTransient<IDuplicateChecker>(ctx => new CircularBufferDuplicateChecker(new ConcurrentCurcularBuffer<string>(10)));
     }
 }
