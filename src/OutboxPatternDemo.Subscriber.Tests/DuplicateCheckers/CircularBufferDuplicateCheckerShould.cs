@@ -1,9 +1,3 @@
-using System;
-using System.Threading;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
-using Moq;
 using OutboxPatternDemo.Subscriber.DuplicateCheckers;
 using Xunit;
 

@@ -1,11 +1,5 @@
-using System;
-using System.Threading;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
-using Moq;
 using OutboxPatternDemo.Subscriber.Data;
 using OutboxPatternDemo.Subscriber.DuplicateCheckers;
 using Xunit;
