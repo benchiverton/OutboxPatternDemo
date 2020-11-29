@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,9 +64,8 @@ namespace OutboxPatternDemo.Publisher.Infrastructure
                 }
 
                 unpublishedMessage.ProcessedTimeUtc = DateTime.UtcNow;
+                outboxContext.SaveChanges();
             }
-
-            outboxContext.SaveChanges();
         }
     }
 }
