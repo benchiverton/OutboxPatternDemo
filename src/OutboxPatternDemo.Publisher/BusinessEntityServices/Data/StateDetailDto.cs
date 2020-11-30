@@ -9,6 +9,7 @@ namespace OutboxPatternDemo.Publisher.BusinessEntityServices.Data
         public int Id { get; set; }
         public string BusinessEntityId { get; set; }
         public string State { get; set; }
+        [Column(TypeName = "datetime2")]
         public DateTime TimeStampUtc { get; set; }
     }
 }

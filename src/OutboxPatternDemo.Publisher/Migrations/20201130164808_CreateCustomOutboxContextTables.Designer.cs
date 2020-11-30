@@ -2,43 +2,44 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OutboxPatternDemo.Publisher.Infrastructure;
+using OutboxPatternDemo.Publisher.CustomOutbox;
 
 namespace OutboxPatternDemo.Publisher.Migrations
 {
-    [DbContext(typeof(OutboxContext))]
-    [Migration("20201127153051_CreateOutboxTables")]
-    partial class CreateOutboxTables
+    [DbContext(typeof(CustomOutboxContext))]
+    [Migration("20201130164808_CreateCustomOutboxContextTables")]
+    partial class CreateCustomOutboxContextTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Outbox")
+                .HasDefaultSchema("CustomOutbox")
+                .UseIdentityColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("OutboxPatternDemo.Publisher.Infrastructure.OutboxMessage", b =>
+            modelBuilder.Entity("OutboxPatternDemo.Publisher.CustomOutbox.CustomOutboxMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("Data")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ProcessedTimeUtc")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("RequestedTimeUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("SendDuplicate")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Type")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

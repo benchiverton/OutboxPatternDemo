@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,16 +8,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OutboxPatternDemo.Publisher.BusinessEntityServices;
 using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
-using OutboxPatternDemo.Publisher.Infrastructure;
+using OutboxPatternDemo.Publisher.CustomOutbox;
 
 namespace OutboxPatternDemo.Publisher
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
@@ -26,15 +23,15 @@ namespace OutboxPatternDemo.Publisher
         {
             services.AddControllers();
 
-            var dbConnection = new SqliteConnection("Data Source=C:/OutboxPatternDemoDb/OutboxPatternDemo.db");
+            var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
 
-            services.AddEntityFrameworkSqlite().AddDbContext<BusinessEntityContext>(o => o.UseSqlite(dbConnection), ServiceLifetime.Transient);
+            services.AddEntityFrameworkSqlServer().AddDbContext<BusinessEntityContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
             services.AddTransient<IBusinessEntityCommandService, BusinessEntityCommandService>();
             services.AddTransient<IBusinessEntityQueryService, BusinessEntityQueryService>();
 
-            services.AddEntityFrameworkSqlite().AddDbContext<OutboxContext>(o => o.UseSqlite(dbConnection), ServiceLifetime.Transient);
-            services.AddTransient<IOutboxMessageBus, OutboxMessageBus>();
-            services.AddHostedService<OutboxProcessor>();
+            services.AddEntityFrameworkSqlServer().AddDbContext<CustomOutboxContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
+            services.AddTransient<IOutboxMessageBus, CustomOutboxMessageBus>();
+            services.AddHostedService<CustomOutboxProcessor>();
 
             services.AddSwaggerGen(c =>
             {
