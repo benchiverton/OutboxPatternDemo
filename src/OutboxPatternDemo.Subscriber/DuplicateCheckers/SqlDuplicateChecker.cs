@@ -21,6 +21,7 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
                 _context.SaveChanges();
                 return false;
             }
+            // TODO: only catch duplicate key exceptions
             catch (DbUpdateException ex)
             {
                 return true;

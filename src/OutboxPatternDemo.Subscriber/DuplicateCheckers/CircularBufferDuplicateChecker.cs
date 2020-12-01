@@ -5,13 +5,13 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
 {
     public class CircularBufferDuplicateChecker : IDuplicateChecker
     {
-        private readonly ConcurrentCurcularBuffer<int> _circularBuffer;
+        private readonly ConcurrentCircularBuffer<int> _circularBuffer;
 
         /// <summary>
         /// Returns true when a duplicate is received within the last X records
         /// </summary>
-        /// <param name="curcularBuffer"></param>
-        public CircularBufferDuplicateChecker(ConcurrentCurcularBuffer<int> curcularBuffer) => _circularBuffer = curcularBuffer;
+        /// <param name="circularBuffer"></param>
+        public CircularBufferDuplicateChecker(ConcurrentCircularBuffer<int> circularBuffer) => _circularBuffer = circularBuffer;
 
         public bool IsDuplicate(int stateDetailsId)
         {
@@ -27,12 +27,12 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
         }
     }
 
-    public class ConcurrentCurcularBuffer<T>
+    public class ConcurrentCircularBuffer<T>
     {
         private readonly ConcurrentQueue<T> _queue;
         private readonly int _capacity;
 
-        public ConcurrentCurcularBuffer(int capacity)
+        public ConcurrentCircularBuffer(int capacity)
         {
             _queue = new ConcurrentQueue<T>();
             _capacity = capacity;

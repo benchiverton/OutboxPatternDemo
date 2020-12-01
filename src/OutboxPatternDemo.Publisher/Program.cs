@@ -43,7 +43,7 @@ namespace OutboxPatternDemo.Publisher
                     // outbox requires persistence
                     var persistence = endpointConfig.UsePersistence<SqlPersistence>();
                     persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
-                    var dialect = persistence.SqlDialect<SqlDialect.MsSqlServer>();
+                    persistence.SqlDialect<SqlDialect.MsSqlServer>();
                     endpointConfig.EnableOutbox();
 
                     LogManager.Use<SerilogFactory>();

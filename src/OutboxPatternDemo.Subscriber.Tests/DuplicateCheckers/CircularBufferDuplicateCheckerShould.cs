@@ -8,7 +8,7 @@ namespace OutboxPatternDemo.Subscriber.Tests.DuplicateCheckers
         [Fact]
         public void MarkDuplicateAsDuplicate()
         {
-            var circularBuffer = new ConcurrentCurcularBuffer<int>(10);
+            var circularBuffer = new ConcurrentCircularBuffer<int>(10);
             var duplicateChecker = new CircularBufferDuplicateChecker(circularBuffer);
 
             duplicateChecker.IsDuplicate(12345);
@@ -20,7 +20,7 @@ namespace OutboxPatternDemo.Subscriber.Tests.DuplicateCheckers
         [Fact]
         public void NotMarkNewAsDuplicate()
         {
-            var circularBuffer = new ConcurrentCurcularBuffer<int>(10);
+            var circularBuffer = new ConcurrentCircularBuffer<int>(10);
             var duplicateChecker = new CircularBufferDuplicateChecker(circularBuffer);
 
             duplicateChecker.IsDuplicate(1);
@@ -35,7 +35,7 @@ namespace OutboxPatternDemo.Subscriber.Tests.DuplicateCheckers
         [Fact]
         public void NotMarkDuplicateAsDuplicateAfterRecordPurged()
         {
-            var circularBuffer = new ConcurrentCurcularBuffer<int>(5);
+            var circularBuffer = new ConcurrentCircularBuffer<int>(5);
             var duplicateChecker = new CircularBufferDuplicateChecker(circularBuffer);
 
             duplicateChecker.IsDuplicate(1);

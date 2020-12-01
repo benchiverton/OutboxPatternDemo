@@ -84,6 +84,6 @@ namespace OutboxPatternDemo.Subscriber
         }
 
         private static void SetupCircularBufferDuplicateChecker(IServiceCollection services)
-            => services.AddSingleton<IDuplicateChecker>(ctx => new CircularBufferDuplicateChecker(new ConcurrentCurcularBuffer<int>(10)));
+            => services.AddSingleton<IDuplicateChecker>(ctx => new CircularBufferDuplicateChecker(new ConcurrentCircularBuffer<int>(10)));
     }
 }
