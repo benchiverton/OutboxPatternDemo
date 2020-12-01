@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
@@ -9,7 +10,7 @@ using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
 namespace OutboxPatternDemo.Publisher.Migrations.BusinessEntity
 {
     [DbContext(typeof(BusinessEntityContext))]
-    [Migration("20201127153144_CreateBusinessEntityTables")]
+    [Migration("20201130165929_CreateBusinessEntityTables")]
     partial class CreateBusinessEntityTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,22 +18,25 @@ namespace OutboxPatternDemo.Publisher.Migrations.BusinessEntity
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("BusinessEntity")
+                .UseIdentityColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("OutboxPatternDemo.Publisher.BusinessEntityServices.Data.StateDetailDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("BusinessEntityId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStampUtc")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

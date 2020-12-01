@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -36,8 +37,14 @@ namespace OutboxPatternDemo.Publisher
                 {
                     var endpointConfig = new EndpointConfiguration("OutboxPatternDemo.Publisher");
 
-                    endpointConfig.UsePersistence<LearningPersistence>();
                     endpointConfig.UseTransport<LearningTransport>();
+                    endpointConfig.EnableInstallers();
+
+                    // outbox requires persistence
+                    var persistence = endpointConfig.UsePersistence<SqlPersistence>();
+                    persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
+                    persistence.SqlDialect<SqlDialect.MsSqlServer>();
+                    endpointConfig.EnableOutbox();
 
                     LogManager.Use<SerilogFactory>();
 
