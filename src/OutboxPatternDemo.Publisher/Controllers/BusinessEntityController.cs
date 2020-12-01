@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OutboxPatternDemo.Publisher.BusinessEntityServices;
@@ -20,18 +21,18 @@ namespace OutboxPatternDemo.Publisher.Controllers
             _queryService = queryService;
         }
 
-        [HttpPost("updatestate/{businessEntityId}")]
-        public StateDetail UpdateState(string businessEntityId, [FromBody] StateDetail details)
+        [HttpPost("updatestateusingcustomoutbox/{businessEntityId}")]
+        public async Task<IActionResult> UpdateStateUsingCustomOutbox(string businessEntityId, [FromBody] StateDetail details)
         {
-            _logger.LogInformation("");
-            return _commandService.AddStateDetail(businessEntityId, details, false);
+            await _commandService.AddStateDetailUsingCustomOutbox(businessEntityId, details);
+            return Ok();
         }
 
-        [HttpPost("updatestateandsendduplicate/{businessEntityId}")]
-        public StateDetail UpdateStateAndSendDuplicate(string businessEntityId, [FromBody] StateDetail details)
+        [HttpPost("updatestateusingnservicebusoutbox/{businessEntityId}")]
+        public async Task<IActionResult> UpdateStateUsingNServiceBusOutbox(string businessEntityId, [FromBody] StateDetail details)
         {
-            _logger.LogInformation("");
-            return _commandService.AddStateDetail(businessEntityId, details, true);
+            await _commandService.AddStateDetailUsingNServiceBusOutbox(businessEntityId, details);
+            return Ok();
         }
 
         [HttpGet("businessentity/{businessEntityId}")]

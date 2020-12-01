@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,15 +9,15 @@ using NServiceBus;
 using OutboxPatternDemo.Publisher.Contract.Events;
 using Timer = System.Timers.Timer;
 
-namespace OutboxPatternDemo.Publisher.Infrastructure
+namespace OutboxPatternDemo.Publisher.CustomOutbox
 {
-    public class OutboxProcessor : IHostedService
+    public class CustomOutboxProcessor : IHostedService
     {
         private readonly IServiceScopeFactory _scopeFactory;
 
         private Timer _timer;
 
-        public OutboxProcessor(IServiceScopeFactory scopeFactory) => _scopeFactory = scopeFactory;
+        public CustomOutboxProcessor(IServiceScopeFactory scopeFactory) => _scopeFactory = scopeFactory;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -43,7 +42,7 @@ namespace OutboxPatternDemo.Publisher.Infrastructure
         private void PublishEventsInOutbox(object sender, System.Timers.ElapsedEventArgs e)
         {
             using var scope = _scopeFactory.CreateScope();
-            var outboxContext = scope.ServiceProvider.GetService<OutboxContext>();
+            using var outboxContext = scope.ServiceProvider.GetService<CustomOutboxContext>();
             var messageSession = scope.ServiceProvider.GetService<IMessageSession>();
 
             var unpublishedMessages = outboxContext.Messages.Where(m => !m.ProcessedTimeUtc.HasValue);
@@ -57,15 +56,9 @@ namespace OutboxPatternDemo.Publisher.Infrastructure
                 };
                 messageSession.Publish(message).GetAwaiter().GetResult();
 
-                // send duplicate message if flag is true
-                if (unpublishedMessage.SendDuplicate)
-                {
-                    messageSession.Publish(message).GetAwaiter().GetResult();
-                }
-
                 unpublishedMessage.ProcessedTimeUtc = DateTime.UtcNow;
-                outboxContext.SaveChanges();
             }
+            outboxContext.SaveChanges();
         }
     }
 }
