@@ -24,7 +24,6 @@ namespace OutboxPatternDemo.Publisher.Controllers
         [HttpPost("updatestateusingcustomoutbox/{businessEntityId}")]
         public async Task<IActionResult> UpdateStateUsingCustomOutbox(string businessEntityId, [FromBody] StateDetail details)
         {
-            _logger.LogInformation("");
             await _commandService.AddStateDetailUsingCustomOutbox(businessEntityId, details);
             return Ok();
         }
@@ -32,7 +31,6 @@ namespace OutboxPatternDemo.Publisher.Controllers
         [HttpPost("updatestateusingnservicebusoutbox/{businessEntityId}")]
         public async Task<IActionResult> UpdateStateUsingNServiceBusOutbox(string businessEntityId, [FromBody] StateDetail details)
         {
-            _logger.LogInformation("");
             await _commandService.AddStateDetailUsingNServiceBusOutbox(businessEntityId, details);
             return Ok();
         }
