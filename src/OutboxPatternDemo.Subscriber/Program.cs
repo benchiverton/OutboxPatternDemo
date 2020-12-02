@@ -12,6 +12,7 @@ using NServiceBus.Serilog;
 using OutboxPatternDemo.Subscriber.Data;
 using OutboxPatternDemo.Subscriber.DuplicateCheckers;
 using Serilog;
+using Serilog.Events;
 
 namespace OutboxPatternDemo.Subscriber
 {
@@ -22,6 +23,7 @@ namespace OutboxPatternDemo.Subscriber
         public static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Fatal)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();

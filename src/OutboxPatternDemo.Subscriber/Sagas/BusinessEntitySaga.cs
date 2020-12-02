@@ -20,7 +20,7 @@ namespace OutboxPatternDemo.Subscriber.Sagas
         {
             if (Data.StateDetails.ContainsKey(message.Details.Id))
             {
-                // duplicate - don't process
+                _logger.LogWarning($"{nameof(BusinessEntitySaga)} marked message with id: {message.Details.Id} as a duplicate. It will not be processed.");
                 return Task.CompletedTask;
             }
 

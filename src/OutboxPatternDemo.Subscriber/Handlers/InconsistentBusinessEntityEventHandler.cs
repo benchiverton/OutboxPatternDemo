@@ -25,7 +25,7 @@ namespace OutboxPatternDemo.Subscriber.Handlers
         {
             if (_duplicateChecker.IsDuplicate(message.Details.Id))
             {
-                _logger.LogWarning($"{nameof(StateUpdated)} message with id: {message.Details.Id} is a duplicate. It will not be processed.");
+                _logger.LogWarning($"{nameof(InconsistentBusinessEntityEventHandler)} marked message with id: {message.Details.Id} as a duplicate. It will not be processed.");
                 return Task.CompletedTask;
             }
 

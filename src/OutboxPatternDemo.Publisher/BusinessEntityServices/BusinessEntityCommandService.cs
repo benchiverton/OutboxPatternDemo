@@ -53,6 +53,7 @@ namespace OutboxPatternDemo.Publisher.BusinessEntityServices
             await transaction.CommitAsync();
         }
 
+        // The outbox works only in an NServiceBus message handler
         public async Task AddStateDetailUsingNServiceBusOutbox(string businessEntityId, StateDetail detail)
             => await _messageSession.SendLocal(new UpdateState
             {
