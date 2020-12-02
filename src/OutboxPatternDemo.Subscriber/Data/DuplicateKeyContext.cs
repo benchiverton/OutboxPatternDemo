@@ -12,8 +12,12 @@ namespace OutboxPatternDemo.Subscriber.Data
 
         public DbSet<DuplicateKey> DuplicateKeys { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<DuplicateKey>()
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("Duplicate");
+            modelBuilder.Entity<DuplicateKey>()
                 .HasIndex(p => p.Key)
                 .IsUnique();
+        }
     }
 }

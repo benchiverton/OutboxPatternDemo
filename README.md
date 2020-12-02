@@ -44,16 +44,27 @@ Then, copy your `license.xml` file to `%LocalAppData%/ParticularSoftware`. You m
 
 #### Entity Framework
 
-The underlying data source for outbox events uses SQL Server. Before you can run the OutboxPatternDemo.Publishing app, you need to create a local database called `OutboxPatternDemo`.
+The underlying data source for outbox events uses SQL Server. Before you can run the OutboxPatternDemo.Publisher/Subscriber apps, you need to create a local database called `OutboxPatternDemo`.
 
-Then, run the following commands from a powershell terminal in the `src/OutboxPatternDemo.Publisher` directory:
+First, verify that Entity Framework is installed:
 
 ```powershell
 # install Entity Framework tool
 dotnet tool install --global dotnet-ef
+```
 
+Then, run the following commands from a PowerShell terminal in the `src/OutboxPatternDemo.Publisher` directory:
+
+```powershell
 # create contexts
 dotnet ef database update --context BusinessEntityContext
 dotnet ef database update --context CustomOutboxContext
+```
+
+and the following commands from the `src/OutboxPatternDemo.Subscriber` directory:
+
+```powershell
+# create contexts
+dotnet ef database update --context DuplicateKeyContext
 ```
 

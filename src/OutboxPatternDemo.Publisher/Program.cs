@@ -40,7 +40,6 @@ namespace OutboxPatternDemo.Publisher
                     endpointConfig.UseTransport<LearningTransport>();
                     endpointConfig.EnableInstallers();
 
-                    // outbox requires persistence
                     var persistence = endpointConfig.UsePersistence<SqlPersistence>();
                     persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
                     persistence.SqlDialect<SqlDialect.MsSqlServer>();
