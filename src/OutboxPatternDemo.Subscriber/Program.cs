@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +33,9 @@ namespace OutboxPatternDemo.Subscriber
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((host, services) =>
                 {
-                    var duplicateCheckerType = "CircularBuffer";
+                    services.AddTransient<IDesignTimeDbContextFactory<DuplicateKeyContext>, DuplicateKeyContextDesignTimeFactory>();
+
+                    var duplicateCheckerType = "Sql";
 
                     switch (duplicateCheckerType)
                     {
@@ -54,8 +57,13 @@ namespace OutboxPatternDemo.Subscriber
                 {
                     var endpointConfig = new EndpointConfiguration("OutboxPatternDemo.Subscriber");
 
-                    endpointConfig.UsePersistence<LearningPersistence>();
                     endpointConfig.UseTransport<LearningTransport>();
+                    endpointConfig.EnableInstallers();
+
+                    var persistence = endpointConfig.UsePersistence<SqlPersistence>();
+                    persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
+                    persistence.SqlDialect<SqlDialect.MsSqlServer>();
+                    endpointConfig.EnableOutbox();
 
                     LogManager.Use<SerilogFactory>();
 
@@ -77,9 +85,8 @@ namespace OutboxPatternDemo.Subscriber
 
         private static void SetupSqlDuplicateChecker(IServiceCollection services)
         {
-            var connection = new SqliteConnection("Filename=:memory:");
-            connection.Open();
-            services.AddDbContext<DuplicateKeyContext>(o => o.UseSqlite(connection));
+            var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
+            services.AddDbContext<DuplicateKeyContext>(o => o.UseSqlServer(sqlConnection));
             services.AddTransient<IDuplicateChecker, SqlDuplicateChecker>();
         }
 

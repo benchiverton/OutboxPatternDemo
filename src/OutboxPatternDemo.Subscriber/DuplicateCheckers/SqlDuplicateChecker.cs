@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NServiceBus.Persistence.Sql;
 using OutboxPatternDemo.Subscriber.Data;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
@@ -19,6 +20,25 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
             {
                 _context.DuplicateKeys.Add(new DuplicateKey(stateDetailsId.ToString()));
                 _context.SaveChanges();
+                return false;
+            }
+            // TODO: only catch duplicate key exceptions
+            catch (DbUpdateException ex)
+            {
+                return true;
+            }
+        }
+
+        public bool IsDuplicateTransactional(int stateDetailsId, ISqlStorageSession sqlStorageSession)
+        {
+            try
+            {
+                _context.Database.SetDbConnection(sqlStorageSession.Connection);
+                _context.Database.UseTransaction(sqlStorageSession.Transaction);
+
+                _context.DuplicateKeys.Add(new DuplicateKey(stateDetailsId.ToString()));
+                _context.SaveChanges();
+
                 return false;
             }
             // TODO: only catch duplicate key exceptions

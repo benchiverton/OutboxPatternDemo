@@ -6,17 +6,21 @@ using OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
 namespace OutboxPatternDemo.Subscriber.Handlers
 {
-    public class BusinessEntityEventHandler : IHandleMessages<StateUpdated>
+    public class InconsistentBusinessEntityEventHandler : IHandleMessages<StateUpdated>
     {
-        private readonly ILogger<BusinessEntityEventHandler> _logger;
+        private readonly ILogger<InconsistentBusinessEntityEventHandler> _logger;
         private readonly IDuplicateChecker _duplicateChecker;
 
-        public BusinessEntityEventHandler(ILogger<BusinessEntityEventHandler> logger, IDuplicateChecker duplicateChecker)
+        public InconsistentBusinessEntityEventHandler(ILogger<InconsistentBusinessEntityEventHandler> logger, IDuplicateChecker duplicateChecker)
         {
             _logger = logger;
             _duplicateChecker = duplicateChecker;
         }
 
+        /// <summary>
+        /// If the business logic fails, then upon retrying a message it will be marked as duplicate.
+        /// Therefore, this approach should be avoided where possible.
+        /// </summary>
         public Task Handle(StateUpdated message, IMessageHandlerContext context)
         {
             if (_duplicateChecker.IsDuplicate(message.Details.Id))
@@ -25,8 +29,9 @@ namespace OutboxPatternDemo.Subscriber.Handlers
                 return Task.CompletedTask;
             }
 
-            // continue processing message
-            _logger.LogInformation($"Finished processing {nameof(StateUpdated)} message with Id: {message.Details.Id}");
+            // business logic
+
+            _logger.LogInformation($"{nameof(InconsistentBusinessEntityEventHandler)} finished processing {nameof(StateUpdated)} message with Id: {message.Details.Id}");
 
             return Task.CompletedTask;
         }

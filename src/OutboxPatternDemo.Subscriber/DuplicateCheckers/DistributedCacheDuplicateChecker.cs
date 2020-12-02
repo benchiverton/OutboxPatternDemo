@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Microsoft.Extensions.Caching.Distributed;
+using NServiceBus.Persistence.Sql;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
 {
@@ -32,5 +33,8 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers
 
             return true;
         }
+
+        // not implemented
+        public bool IsDuplicateTransactional(int stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
     }
 }
