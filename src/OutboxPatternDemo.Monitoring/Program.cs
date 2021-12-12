@@ -1,7 +1,6 @@
-namespace OutboxPatternDemo.Monitoring
+namespace OutboxPatternDemo.Monitoring;
+
+public class Program
 {
-    public class Program
-    {
-        public static void Main(string[] args) => Particular.PlatformLauncher.Launch();
-    }
+    public static void Main(string[] args) => Particular.PlatformLauncher.Launch();
 }
