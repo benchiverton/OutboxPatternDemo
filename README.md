@@ -34,7 +34,7 @@ This project demo's the Outbox Pattern using NServiceBus (In Memory) and EntityF
 
 ### Getting started
 
-All of the code is in the `src` folder. It requires the dotnet 5 SDK to run.
+All of the code is in the `src` folder. It requires the dotnet 6 SDK to run.
 
 #### NServiceBus
 
