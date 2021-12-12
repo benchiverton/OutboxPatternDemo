@@ -4,36 +4,35 @@ using NServiceBus;
 using OutboxPatternDemo.Publisher.Contract.Events;
 using OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
-namespace OutboxPatternDemo.Subscriber.Handlers
+namespace OutboxPatternDemo.Subscriber.Handlers;
+
+public class InconsistentBusinessEntityEventHandler : IHandleMessages<StateUpdated>
 {
-    public class InconsistentBusinessEntityEventHandler : IHandleMessages<StateUpdated>
+    private readonly ILogger<InconsistentBusinessEntityEventHandler> _logger;
+    private readonly IDuplicateChecker _duplicateChecker;
+
+    public InconsistentBusinessEntityEventHandler(ILogger<InconsistentBusinessEntityEventHandler> logger, IDuplicateChecker duplicateChecker)
     {
-        private readonly ILogger<InconsistentBusinessEntityEventHandler> _logger;
-        private readonly IDuplicateChecker _duplicateChecker;
+        _logger = logger;
+        _duplicateChecker = duplicateChecker;
+    }
 
-        public InconsistentBusinessEntityEventHandler(ILogger<InconsistentBusinessEntityEventHandler> logger, IDuplicateChecker duplicateChecker)
+    /// <summary>
+    /// If the business logic fails, then upon retrying a message it will be marked as duplicate.
+    /// Therefore, this approach should be avoided where possible.
+    /// </summary>
+    public Task Handle(StateUpdated message, IMessageHandlerContext context)
+    {
+        if (_duplicateChecker.IsDuplicate(message.Details.Id))
         {
-            _logger = logger;
-            _duplicateChecker = duplicateChecker;
-        }
-
-        /// <summary>
-        /// If the business logic fails, then upon retrying a message it will be marked as duplicate.
-        /// Therefore, this approach should be avoided where possible.
-        /// </summary>
-        public Task Handle(StateUpdated message, IMessageHandlerContext context)
-        {
-            if (_duplicateChecker.IsDuplicate(message.Details.Id))
-            {
-                _logger.LogWarning($"{nameof(InconsistentBusinessEntityEventHandler)} marked message with id: {message.Details.Id} as a duplicate. It will not be processed.");
-                return Task.CompletedTask;
-            }
-
-            // business logic
-
-            _logger.LogInformation($"{nameof(InconsistentBusinessEntityEventHandler)} finished processing {nameof(StateUpdated)} message with Id: {message.Details.Id}");
-
+            _logger.LogWarning($"{nameof(InconsistentBusinessEntityEventHandler)} marked message with id: {message.Details.Id} as a duplicate. It will not be processed.");
             return Task.CompletedTask;
         }
+
+        // business logic
+
+        _logger.LogInformation($"{nameof(InconsistentBusinessEntityEventHandler)} finished processing {nameof(StateUpdated)} message with Id: {message.Details.Id}");
+
+        return Task.CompletedTask;
     }
 }

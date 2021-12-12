@@ -10,62 +10,61 @@ using OutboxPatternDemo.Publisher.BusinessEntityServices;
 using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
 using OutboxPatternDemo.Publisher.CustomOutbox;
 
-namespace OutboxPatternDemo.Publisher
+namespace OutboxPatternDemo.Publisher;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration) => Configuration = configuration;
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
     {
-        public Startup(IConfiguration configuration) => Configuration = configuration;
+        services.AddControllers();
 
-        public IConfiguration Configuration { get; }
+        var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        services.AddEntityFrameworkSqlServer().AddDbContext<BusinessEntityContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
+        services.AddTransient<IBusinessEntityCommandService, BusinessEntityCommandService>();
+        services.AddTransient<IBusinessEntityQueryService, BusinessEntityQueryService>();
+
+        services.AddEntityFrameworkSqlServer().AddDbContext<CustomOutboxContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
+        services.AddTransient<IOutboxMessageBus, CustomOutboxMessageBus>();
+        services.AddHostedService<CustomOutboxProcessor>();
+
+        services.AddSwaggerGen(c =>
         {
-            services.AddControllers();
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "OutboxPatternDemo Publisher", Version = "v1" });
+        });
+    }
 
-            var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseSwagger();
 
-            services.AddEntityFrameworkSqlServer().AddDbContext<BusinessEntityContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
-            services.AddTransient<IBusinessEntityCommandService, BusinessEntityCommandService>();
-            services.AddTransient<IBusinessEntityQueryService, BusinessEntityQueryService>();
+        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+        // specifying the Swagger JSON endpoint.
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "OutboxPatternDemo Publisher v1");
+        });
 
-            services.AddEntityFrameworkSqlServer().AddDbContext<CustomOutboxContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
-            services.AddTransient<IOutboxMessageBus, CustomOutboxMessageBus>();
-            services.AddHostedService<CustomOutboxProcessor>();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OutboxPatternDemo Publisher", Version = "v1" });
-            });
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseHttpsRedirection();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
         {
-            app.UseSwagger();
-            
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OutboxPatternDemo Publisher v1");
-            });
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            endpoints.MapControllers();
+        });
     }
 }

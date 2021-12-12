@@ -9,56 +9,55 @@ using NServiceBus;
 using OutboxPatternDemo.Publisher.Contract.Events;
 using Timer = System.Timers.Timer;
 
-namespace OutboxPatternDemo.Publisher.CustomOutbox
+namespace OutboxPatternDemo.Publisher.CustomOutbox;
+
+public class CustomOutboxProcessor : IHostedService
 {
-    public class CustomOutboxProcessor : IHostedService
+    private readonly IServiceScopeFactory _scopeFactory;
+
+    private Timer _timer;
+
+    public CustomOutboxProcessor(IServiceScopeFactory scopeFactory) => _scopeFactory = scopeFactory;
+
+    public Task StartAsync(CancellationToken cancellationToken)
     {
-        private readonly IServiceScopeFactory _scopeFactory;
+        _timer = new Timer(10000);
+        _timer.Elapsed += PublishEventsInOutbox;
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+        _timer.Start();
 
-        private Timer _timer;
+        return Task.CompletedTask;
+    }
 
-        public CustomOutboxProcessor(IServiceScopeFactory scopeFactory) => _scopeFactory = scopeFactory;
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _timer.Stop();
+        _timer.Dispose();
+        _timer = null;
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        return Task.CompletedTask;
+    }
+
+    private void PublishEventsInOutbox(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        using var scope = _scopeFactory.CreateScope();
+        using var outboxContext = scope.ServiceProvider.GetService<CustomOutboxContext>();
+        var messageSession = scope.ServiceProvider.GetService<IMessageSession>();
+
+        var unpublishedMessages = outboxContext.Messages.Where(m => !m.ProcessedTimeUtc.HasValue);
+
+        foreach (var unpublishedMessage in unpublishedMessages)
         {
-            _timer = new Timer(10000);
-            _timer.Elapsed += PublishEventsInOutbox;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
-            _timer.Start();
-
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _timer.Stop();
-            _timer.Dispose();
-            _timer = null;
-
-            return Task.CompletedTask;
-        }
-
-        private void PublishEventsInOutbox(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            using var outboxContext = scope.ServiceProvider.GetService<CustomOutboxContext>();
-            var messageSession = scope.ServiceProvider.GetService<IMessageSession>();
-
-            var unpublishedMessages = outboxContext.Messages.Where(m => !m.ProcessedTimeUtc.HasValue);
-
-            foreach (var unpublishedMessage in unpublishedMessages)
+            var message = unpublishedMessage.Type switch
             {
-                var message = unpublishedMessage.Type switch
-                {
-                    "StateUpdated" => JsonConvert.DeserializeObject<StateUpdated>(unpublishedMessage.Data),
-                    _ => throw new System.NotImplementedException(),
-                };
-                messageSession.Publish(message).GetAwaiter().GetResult();
+                "StateUpdated" => JsonConvert.DeserializeObject<StateUpdated>(unpublishedMessage.Data),
+                _ => throw new System.NotImplementedException(),
+            };
+            messageSession.Publish(message).GetAwaiter().GetResult();
 
-                unpublishedMessage.ProcessedTimeUtc = DateTime.UtcNow;
-            }
-            outboxContext.SaveChanges();
+            unpublishedMessage.ProcessedTimeUtc = DateTime.UtcNow;
         }
+        outboxContext.SaveChanges();
     }
 }
