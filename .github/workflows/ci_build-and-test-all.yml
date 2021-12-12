@@ -2,12 +2,12 @@ name: Build and Test All
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
     - 'src/**'
     - '.github/workflows/ci_build-and-test-all.yml'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
     - 'src/**'
     - '.github/workflows/ci_build-and-test-all.yml'
