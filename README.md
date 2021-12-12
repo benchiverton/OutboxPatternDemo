@@ -1,4 +1,4 @@
-![Build All](https://github.com/benchiverton/OutboxPatternDemo/workflows/Build%20All/badge.svg)
+![Build All](https://github.com/benchiverton/OutboxPatternDemo/workflows/Build%20and%20Test%20All/badge.svg)
 
 # Outbox Pattern Demo
 
