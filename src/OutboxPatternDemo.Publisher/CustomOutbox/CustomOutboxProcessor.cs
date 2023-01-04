@@ -51,7 +51,7 @@ public class CustomOutboxProcessor : IHostedService
         {
             var message = unpublishedMessage.Type switch
             {
-                "StateUpdated" => JsonConvert.DeserializeObject<StateUpdated>(unpublishedMessage.Data),
+                "AppointmentNotesAddedToMedicalRecord" => JsonConvert.DeserializeObject<AppointmentNotesAddedToMedicalRecord>(unpublishedMessage.Data),
                 _ => throw new System.NotImplementedException(),
             };
             messageSession.Publish(message).GetAwaiter().GetResult();

@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using OutboxPatternDemo.Publisher.BusinessEntityServices;
-using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
+using OutboxPatternDemo.Publisher.AppointmentNotesServices;
+using OutboxPatternDemo.Publisher.AppointmentNotesServices.Data;
 using OutboxPatternDemo.Publisher.CustomOutbox;
 
 namespace OutboxPatternDemo.Publisher;
@@ -25,9 +25,9 @@ public class Startup
 
         var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
 
-        services.AddEntityFrameworkSqlServer().AddDbContext<BusinessEntityContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
-        services.AddTransient<IBusinessEntityCommandService, BusinessEntityCommandService>();
-        services.AddTransient<IBusinessEntityQueryService, BusinessEntityQueryService>();
+        services.AddEntityFrameworkSqlServer().AddDbContext<MedicalRecordContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
+        services.AddTransient<IMedicalRecordCommandService, MedicalRecordCommandService>();
+        services.AddTransient<IMedicalRecordQueryService, MedicalRecordQueryService>();
 
         services.AddEntityFrameworkSqlServer().AddDbContext<CustomOutboxContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
         services.AddTransient<IOutboxMessageBus, CustomOutboxMessageBus>();

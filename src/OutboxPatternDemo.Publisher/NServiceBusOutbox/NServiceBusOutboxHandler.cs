@@ -2,32 +2,32 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NServiceBus;
-using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
+using OutboxPatternDemo.Publisher.AppointmentNotesServices.Data;
 using OutboxPatternDemo.Publisher.Contract.Commands;
 using OutboxPatternDemo.Publisher.Contract.Events;
 
 namespace OutboxPatternDemo.Publisher.NServiceBusOutbox;
 
-public class NServiceBusOutboxHandler : IHandleMessages<UpdateState>
+public class NServiceBusOutboxHandler : IHandleMessages<AddAppointmentNotesToMedicalRecord>
 {
-    private readonly BusinessEntityContext _stateDetailContext;
+    private readonly MedicalRecordContext _medicalRecordContext;
 
-    public NServiceBusOutboxHandler(BusinessEntityContext stateDetailContext) => _stateDetailContext = stateDetailContext;
+    public NServiceBusOutboxHandler(MedicalRecordContext medicalRecordContext) => _medicalRecordContext = medicalRecordContext;
 
-    public async Task Handle(UpdateState message, IMessageHandlerContext context)
+    public async Task Handle(AddAppointmentNotesToMedicalRecord message, IMessageHandlerContext context)
     {
         var persistenceSession = context.SynchronizedStorageSession.SqlPersistenceSession();
 
         // this can be auto-configured when setting up endpoint (.UseNServiceBus)
-        _stateDetailContext.Database.SetDbConnection(persistenceSession.Connection);
-        await _stateDetailContext.Database.UseTransactionAsync(persistenceSession.Transaction, context.CancellationToken);
+        _medicalRecordContext.Database.SetDbConnection(persistenceSession.Connection);
+        await _medicalRecordContext.Database.UseTransactionAsync(persistenceSession.Transaction, context.CancellationToken);
 
-        var dto = message.Details.ToStateDetailDto(message.BusinessEntityId);
+        var dto = message.Details.ToAppointmentNotesDto(message.PatientName);
 
-        dto.TimeStampUtc = DateTime.UtcNow;
-        dto = (await _stateDetailContext.StateDetails.AddAsync(dto, context.CancellationToken)).Entity;
-        await _stateDetailContext.SaveChangesAsync(context.CancellationToken);
+        dto.AppointmentTimeUtc = DateTime.UtcNow;
+        dto = (await _medicalRecordContext.AppointmentNotes.AddAsync(dto, context.CancellationToken)).Entity;
+        await _medicalRecordContext.SaveChangesAsync(context.CancellationToken);
 
-        await context.Publish(new StateUpdated(message.BusinessEntityId,dto.ToStateDetail()));
+        await context.Publish(new AppointmentNotesAddedToMedicalRecord(message.PatientName, dto.ToAppointmentNotes()));
     }
 }
