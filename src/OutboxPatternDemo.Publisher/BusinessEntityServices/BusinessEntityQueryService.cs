@@ -13,10 +13,7 @@ public class BusinessEntityQueryService : IBusinessEntityQueryService
 {
     private readonly BusinessEntityContext _stateDetailContext;
 
-    public BusinessEntityQueryService(BusinessEntityContext stateDetailContext)
-    {
-        _stateDetailContext = stateDetailContext;
-    }
+    public BusinessEntityQueryService(BusinessEntityContext stateDetailContext) => _stateDetailContext = stateDetailContext;
 
     public BusinessEntity GetBusinessEntityById(string id)
     {

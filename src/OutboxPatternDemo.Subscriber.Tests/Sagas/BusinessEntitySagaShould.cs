@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NServiceBus.Testing;
@@ -12,9 +13,8 @@ namespace OutboxPatternDemo.Subscriber.Tests.Sagas;
 
 public class BusinessEntitySagaShould
 {
-
     [Fact]
-    public void ProcessNewMessage()
+    public async Task ProcessNewMessage()
     {
         var loggerMock = new Mock<ILogger<BusinessEntitySaga>>();
         var businessEntitySaga = new BusinessEntitySaga(loggerMock.Object)
@@ -27,14 +27,14 @@ public class BusinessEntitySagaShould
             new StateDetail(Guid.NewGuid(), "NEWSTATE", DateTime.UtcNow)
             );
 
-        businessEntitySaga.Handle(message, context);
+        await businessEntitySaga.Handle(message, context);
 
         // TODO verify business logic is executed
         Assert.Single(businessEntitySaga.Data.StateDetails);
     }
 
     [Fact]
-    public void NotProcessDuplicate()
+    public async Task NotProcessDuplicate()
     {
         var loggerMock = new Mock<ILogger<BusinessEntitySaga>>();
         var duplicateId = Guid.NewGuid();
@@ -43,9 +43,9 @@ public class BusinessEntitySagaShould
             Data = new BusinessEntitySagaData
             {
                 StateDetails = new Dictionary<Guid, StateDetail>
-                    {
-                        {duplicateId, new StateDetail(duplicateId, null, DateTime.UtcNow)}
-                    }
+                {
+                    {duplicateId, new StateDetail(duplicateId, null, DateTime.UtcNow)}
+                }
             }
         };
         var context = new TestableMessageHandlerContext();
@@ -54,7 +54,7 @@ public class BusinessEntitySagaShould
             new StateDetail(duplicateId, "NEWSTATE", DateTime.UtcNow)
             );
 
-        businessEntitySaga.Handle(message, context);
+        await businessEntitySaga.Handle(message, context);
 
         // TODO verify business logic not executed twice
         Assert.Single(businessEntitySaga.Data.StateDetails);

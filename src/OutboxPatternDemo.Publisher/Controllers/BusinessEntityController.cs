@@ -36,9 +36,5 @@ public class BusinessEntityController : ControllerBase
     }
 
     [HttpGet("businessentity/{businessEntityId}")]
-    public BusinessEntity GetBusinessEntityById(string businessEntityId)
-    {
-        _logger.LogInformation("");
-        return _queryService.GetBusinessEntityById(businessEntityId);
-    }
+    public BusinessEntity GetBusinessEntityById(string businessEntityId) => _queryService.GetBusinessEntityById(businessEntityId);
 }
