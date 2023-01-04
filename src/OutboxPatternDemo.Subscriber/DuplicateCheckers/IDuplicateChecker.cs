@@ -1,9 +1,10 @@
+using System;
 using NServiceBus.Persistence.Sql;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
 public interface IDuplicateChecker
 {
-    bool IsDuplicate(int stateDetailsId);
-    bool IsDuplicateTransactional(int stateDetailsId, ISqlStorageSession sqlStorageSession);
+    bool IsDuplicate(Guid stateDetailsId);
+    bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession);
 }

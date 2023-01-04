@@ -36,9 +36,11 @@ public class Program
             .UseNServiceBus(ctx =>
             {
                 var endpointConfig = new EndpointConfiguration("OutboxPatternDemo.Publisher");
+                endpointConfig.EnableInstallers();
 
                 endpointConfig.UseTransport<LearningTransport>();
-                endpointConfig.EnableInstallers();
+
+                // todo optional ASB transport
 
                 var persistence = endpointConfig.UsePersistence<SqlPersistence>();
                 persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));

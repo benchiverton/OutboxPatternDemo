@@ -24,7 +24,7 @@ public class BusinessEntitySagaShould
         var context = new TestableMessageHandlerContext();
         var message = new StateUpdated(
             "qwerty",
-            new StateDetail(123, "NEWSTATE", DateTime.UtcNow)
+            new StateDetail(Guid.NewGuid(), "NEWSTATE", DateTime.UtcNow)
             );
 
         businessEntitySaga.Handle(message, context);
@@ -37,20 +37,21 @@ public class BusinessEntitySagaShould
     public void NotProcessDuplicate()
     {
         var loggerMock = new Mock<ILogger<BusinessEntitySaga>>();
+        var duplicateId = Guid.NewGuid();
         var businessEntitySaga = new BusinessEntitySaga(loggerMock.Object)
         {
             Data = new BusinessEntitySagaData
             {
-                StateDetails = new Dictionary<int, StateDetail>
+                StateDetails = new Dictionary<Guid, StateDetail>
                     {
-                        {123, new StateDetail(0, null, DateTime.UtcNow)}
+                        {duplicateId, new StateDetail(duplicateId, null, DateTime.UtcNow)}
                     }
             }
         };
         var context = new TestableMessageHandlerContext();
         var message = new StateUpdated(
             "qwerty",
-            new StateDetail(123, "NEWSTATE", DateTime.UtcNow)
+            new StateDetail(duplicateId, "NEWSTATE", DateTime.UtcNow)
             );
 
         businessEntitySaga.Handle(message, context);

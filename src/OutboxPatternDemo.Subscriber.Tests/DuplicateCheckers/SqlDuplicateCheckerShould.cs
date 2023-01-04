@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using OutboxPatternDemo.Subscriber.Data;
@@ -17,9 +18,10 @@ public class SqlDuplicateCheckerShould
         optionsBuilder.UseSqlite(connection);
         var context = new DuplicateKeyContext(optionsBuilder.Options);
         var duplicateChecker = new SqlDuplicateChecker(context);
+        var duplicateId = Guid.NewGuid();
 
-        duplicateChecker.IsDuplicate(12345);
-        var isDuplicate = duplicateChecker.IsDuplicate(12345);
+        duplicateChecker.IsDuplicate(duplicateId);
+        var isDuplicate = duplicateChecker.IsDuplicate(duplicateId);
 
         Assert.True(isDuplicate);
     }
@@ -34,11 +36,11 @@ public class SqlDuplicateCheckerShould
         var context = new DuplicateKeyContext(optionsBuilder.Options);
         var duplicateChecker = new SqlDuplicateChecker(context);
 
-        duplicateChecker.IsDuplicate(1);
-        duplicateChecker.IsDuplicate(2);
-        duplicateChecker.IsDuplicate(3);
-        duplicateChecker.IsDuplicate(4);
-        var isDuplicate = duplicateChecker.IsDuplicate(5);
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        var isDuplicate = duplicateChecker.IsDuplicate(Guid.NewGuid());
 
         Assert.False(isDuplicate);
     }

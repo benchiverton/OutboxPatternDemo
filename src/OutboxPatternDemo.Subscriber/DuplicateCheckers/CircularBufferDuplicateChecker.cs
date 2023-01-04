@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using NServiceBus.Persistence.Sql;
@@ -6,15 +7,15 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
 public class CircularBufferDuplicateChecker : IDuplicateChecker
 {
-    private readonly ConcurrentCircularBuffer<int> _circularBuffer;
+    private readonly ConcurrentCircularBuffer<Guid> _circularBuffer;
 
     /// <summary>
     /// Returns true when a duplicate is received within the last X records.
     /// </summary>
     /// <param name="circularBuffer"></param>
-    public CircularBufferDuplicateChecker(ConcurrentCircularBuffer<int> circularBuffer) => _circularBuffer = circularBuffer;
+    public CircularBufferDuplicateChecker(ConcurrentCircularBuffer<Guid> circularBuffer) => _circularBuffer = circularBuffer;
 
-    public bool IsDuplicate(int stateDetailsId)
+    public bool IsDuplicate(Guid stateDetailsId)
     {
         if (_circularBuffer.Contains(stateDetailsId))
         {
@@ -28,7 +29,7 @@ public class CircularBufferDuplicateChecker : IDuplicateChecker
     }
 
     // not implemented
-    public bool IsDuplicateTransactional(int stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
+    public bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
 }
 
 public class ConcurrentCircularBuffer<T>

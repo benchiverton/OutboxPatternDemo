@@ -15,9 +15,10 @@ public class DistributedCacheDuplicateCheckerShould
     {
         var distributedCache = new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions()));
         var duplicateChecker = new DistributedCacheDuplicateChecker(distributedCache, TimeSpan.FromMinutes(10));
+        var duplicateId = Guid.NewGuid();
 
-        duplicateChecker.IsDuplicate(12345);
-        var isDuplicate = duplicateChecker.IsDuplicate(12345);
+        duplicateChecker.IsDuplicate(duplicateId);
+        var isDuplicate = duplicateChecker.IsDuplicate(duplicateId);
 
         Assert.True(isDuplicate);
     }
@@ -28,11 +29,11 @@ public class DistributedCacheDuplicateCheckerShould
         var distributedCache = new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions()));
         var duplicateChecker = new DistributedCacheDuplicateChecker(distributedCache, TimeSpan.FromMinutes(10));
 
-        duplicateChecker.IsDuplicate(1);
-        duplicateChecker.IsDuplicate(2);
-        duplicateChecker.IsDuplicate(3);
-        duplicateChecker.IsDuplicate(4);
-        var isDuplicate = duplicateChecker.IsDuplicate(5);
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        duplicateChecker.IsDuplicate(Guid.NewGuid());
+        var isDuplicate = duplicateChecker.IsDuplicate(Guid.NewGuid());
 
         Assert.False(isDuplicate);
     }
@@ -42,10 +43,11 @@ public class DistributedCacheDuplicateCheckerShould
     {
         var distributedCache = new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions()));
         var duplicateChecker = new DistributedCacheDuplicateChecker(distributedCache, TimeSpan.FromMilliseconds(10));
+        var duplicateId = Guid.NewGuid();
 
-        duplicateChecker.IsDuplicate(12345);
+        duplicateChecker.IsDuplicate(duplicateId);
         Thread.Sleep(11);
-        var isDuplicate = duplicateChecker.IsDuplicate(12345);
+        var isDuplicate = duplicateChecker.IsDuplicate(duplicateId);
 
         Assert.False(isDuplicate);
     }

@@ -22,7 +22,7 @@ public class DistributedCacheDuplicateChecker : IDuplicateChecker
         };
     }
 
-    public bool IsDuplicate(int stateDetailsId)
+    public bool IsDuplicate(Guid stateDetailsId)
     {
         if (_cache.Get(stateDetailsId.ToString()) == null)
         {
@@ -35,5 +35,5 @@ public class DistributedCacheDuplicateChecker : IDuplicateChecker
     }
 
     // not implemented
-    public bool IsDuplicateTransactional(int stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
+    public bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
 }

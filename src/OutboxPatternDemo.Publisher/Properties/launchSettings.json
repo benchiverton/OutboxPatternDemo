@@ -3,7 +3,7 @@
   "profiles": {
     "OutboxPattern.Demo": {
       "commandName": "Project",
-      "workingDirectory": "C:\\Projects\\OutboxPatternDemo\\src",
+      //"workingDirectory": "C:\\Projects\\OutboxPatternDemo\\src",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

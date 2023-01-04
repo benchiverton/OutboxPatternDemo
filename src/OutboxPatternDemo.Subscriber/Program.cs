@@ -58,14 +58,16 @@ public class Program
             .UseNServiceBus(ctx =>
             {
                 var endpointConfig = new EndpointConfiguration("OutboxPatternDemo.Subscriber");
+                endpointConfig.EnableInstallers();
 
                 endpointConfig.UseTransport<LearningTransport>();
-                endpointConfig.EnableInstallers();
+
+                // todo optional ASB transport
 
                 var persistence = endpointConfig.UsePersistence<SqlPersistence>();
                 persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
                 persistence.SqlDialect<SqlDialect.MsSqlServer>();
-                endpointConfig.EnableOutbox();
+                //endpointConfig.EnableOutbox();
 
                 LogManager.Use<SerilogFactory>();
 
@@ -93,5 +95,5 @@ public class Program
     }
 
     private static void SetupCircularBufferDuplicateChecker(IServiceCollection services)
-        => services.AddSingleton<IDuplicateChecker>(ctx => new CircularBufferDuplicateChecker(new ConcurrentCircularBuffer<int>(10)));
+        => services.AddSingleton<IDuplicateChecker>(ctx => new CircularBufferDuplicateChecker(new ConcurrentCircularBuffer<Guid>(10)));
 }

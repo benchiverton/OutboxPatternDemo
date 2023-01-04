@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using NServiceBus.Persistence.Sql;
 using OutboxPatternDemo.Subscriber.Data;
@@ -14,7 +15,7 @@ public class SqlDuplicateChecker : IDuplicateChecker
     /// <param name="context"></param>
     public SqlDuplicateChecker(DuplicateKeyContext context) => _context = context;
 
-    public bool IsDuplicate(int stateDetailsId)
+    public bool IsDuplicate(Guid stateDetailsId)
     {
         try
         {
@@ -29,7 +30,7 @@ public class SqlDuplicateChecker : IDuplicateChecker
         }
     }
 
-    public bool IsDuplicateTransactional(int stateDetailsId, ISqlStorageSession sqlStorageSession)
+    public bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession)
     {
         try
         {

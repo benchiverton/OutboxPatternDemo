@@ -25,14 +25,14 @@ public class BusinessEntityController : ControllerBase
     public async Task<IActionResult> UpdateStateUsingCustomOutbox(string businessEntityId, [FromBody] StateDetail details)
     {
         await _commandService.AddStateDetailUsingCustomOutbox(businessEntityId, details);
-        return Ok();
+        return Ok(details);
     }
 
     [HttpPost("updatestateusingnservicebusoutbox/{businessEntityId}")]
     public async Task<IActionResult> UpdateStateUsingNServiceBusOutbox(string businessEntityId, [FromBody] StateDetail details)
     {
         await _commandService.AddStateDetailUsingNServiceBusOutbox(businessEntityId, details);
-        return Ok();
+        return Ok(details);
     }
 
     [HttpGet("businessentity/{businessEntityId}")]
