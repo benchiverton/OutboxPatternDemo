@@ -38,12 +38,13 @@ public class Program
                 var endpointConfig = new EndpointConfiguration("OutboxPatternDemo.Publisher");
                 endpointConfig.EnableInstallers();
 
-                endpointConfig.UseTransport<LearningTransport>();
+                var transport = endpointConfig.UseTransport<LearningTransport>();
+                transport.Transactions(TransportTransactionMode.ReceiveOnly);
 
                 // todo optional ASB transport
 
                 var persistence = endpointConfig.UsePersistence<SqlPersistence>();
-                persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
+                persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True"));
                 persistence.SqlDialect<SqlDialect.MsSqlServer>();
                 endpointConfig.EnableOutbox();
 

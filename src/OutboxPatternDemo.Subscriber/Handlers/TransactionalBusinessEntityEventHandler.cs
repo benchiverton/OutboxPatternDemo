@@ -9,9 +9,9 @@ namespace OutboxPatternDemo.Subscriber.Handlers;
 public class TransactionalBusinessEntityEventHandler : IHandleMessages<StateUpdated>
 {
     private readonly ILogger<TransactionalBusinessEntityEventHandler> _logger;
-    private readonly IDuplicateChecker _duplicateChecker;
+    private readonly ITransactionalDuplicateChecker _duplicateChecker;
 
-    public TransactionalBusinessEntityEventHandler(ILogger<TransactionalBusinessEntityEventHandler> logger, IDuplicateChecker duplicateChecker)
+    public TransactionalBusinessEntityEventHandler(ILogger<TransactionalBusinessEntityEventHandler> logger, ITransactionalDuplicateChecker duplicateChecker)
     {
         _logger = logger;
         _duplicateChecker = duplicateChecker;
@@ -29,7 +29,7 @@ public class TransactionalBusinessEntityEventHandler : IHandleMessages<StateUpda
 
         // business logic using transaction
 
-        _logger.LogInformation($"{nameof(IdempotentBusinessEntityEventHandler)} finished processing {nameof(StateUpdated)} message with Id: {message.Details.Id}");
+        _logger.LogInformation($"{nameof(TransactionalBusinessEntityEventHandler)} finished processing {nameof(StateUpdated)} message with Id: {message.Details.Id}");
 
         return Task.CompletedTask;
     }

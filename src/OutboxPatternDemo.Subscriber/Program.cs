@@ -35,7 +35,11 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((host, services) =>
             {
-                services.AddTransient<IDesignTimeDbContextFactory<DuplicateKeyContext>, DuplicateKeyContextDesignTimeFactory>();
+                services.AddTransient<IDesignTimeDbContextFactory<DuplicateKeyContext>, DuplicateKeyContextFactory>();
+                var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
+                services.AddDbContext<DuplicateKeyContext>(o => o.UseSqlServer(sqlConnection));
+
+                services.AddTransient<ITransactionalDuplicateChecker, SqlDuplicateChecker>();
 
                 var duplicateCheckerType = "CircularBuffer";
 
@@ -65,9 +69,8 @@ public class Program
                 // todo optional ASB transport
 
                 var persistence = endpointConfig.UsePersistence<SqlPersistence>();
-                persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI"));
+                persistence.ConnectionBuilder(() => new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True"));
                 persistence.SqlDialect<SqlDialect.MsSqlServer>();
-                //endpointConfig.EnableOutbox();
 
                 LogManager.Use<SerilogFactory>();
 
@@ -88,11 +91,7 @@ public class Program
     }
 
     private static void SetupSqlDuplicateChecker(IServiceCollection services)
-    {
-        var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
-        services.AddDbContext<DuplicateKeyContext>(o => o.UseSqlServer(sqlConnection));
-        services.AddTransient<IDuplicateChecker, SqlDuplicateChecker>();
-    }
+        => services.AddTransient<IDuplicateChecker, SqlDuplicateChecker>();
 
     private static void SetupCircularBufferDuplicateChecker(IServiceCollection services)
         => services.AddSingleton<IDuplicateChecker>(ctx => new CircularBufferDuplicateChecker(new ConcurrentCircularBuffer<Guid>(10)));

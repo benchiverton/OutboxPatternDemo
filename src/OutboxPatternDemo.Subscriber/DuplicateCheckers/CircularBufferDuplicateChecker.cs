@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using NServiceBus.Persistence.Sql;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
@@ -27,9 +26,6 @@ public class CircularBufferDuplicateChecker : IDuplicateChecker
             return false;
         }
     }
-
-    // not implemented
-    public bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
 }
 
 public class ConcurrentCircularBuffer<T>

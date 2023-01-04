@@ -23,7 +23,7 @@ public class Startup
     {
         services.AddControllers();
 
-        var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
+        var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
 
         services.AddEntityFrameworkSqlServer().AddDbContext<BusinessEntityContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
         services.AddTransient<IBusinessEntityCommandService, BusinessEntityCommandService>();

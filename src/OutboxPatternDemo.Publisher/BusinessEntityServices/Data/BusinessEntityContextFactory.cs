@@ -8,7 +8,7 @@ public class BusinessEntityContextFactory : IDesignTimeDbContextFactory<Business
 {
     public BusinessEntityContext CreateDbContext(string[] args)
     {
-        var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
+        var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
         var contextOptionsBuilder = new DbContextOptionsBuilder<BusinessEntityContext>();
         contextOptionsBuilder.UseSqlServer(sqlConnection);
         return new BusinessEntityContext(contextOptionsBuilder.Options);

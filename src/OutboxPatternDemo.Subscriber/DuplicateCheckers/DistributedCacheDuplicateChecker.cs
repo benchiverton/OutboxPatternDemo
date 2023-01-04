@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using Microsoft.Extensions.Caching.Distributed;
-using NServiceBus.Persistence.Sql;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
@@ -33,7 +32,4 @@ public class DistributedCacheDuplicateChecker : IDuplicateChecker
 
         return true;
     }
-
-    // not implemented
-    public bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession) => false;
 }

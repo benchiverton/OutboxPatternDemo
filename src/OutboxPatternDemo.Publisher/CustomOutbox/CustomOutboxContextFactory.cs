@@ -8,7 +8,7 @@ public class CustomOutboxContextFactory : IDesignTimeDbContextFactory<CustomOutb
 {
     public CustomOutboxContext CreateDbContext(string[] args)
     {
-        var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI");
+        var sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
         var contextOptionsBuilder = new DbContextOptionsBuilder<CustomOutboxContext>();
         contextOptionsBuilder.UseSqlServer(sqlConnection);
         return new CustomOutboxContext(contextOptionsBuilder.Options);

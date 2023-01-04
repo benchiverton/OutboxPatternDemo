@@ -5,7 +5,7 @@ using OutboxPatternDemo.Subscriber.Data;
 
 namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
-public class SqlDuplicateChecker : IDuplicateChecker
+public class SqlDuplicateChecker : IDuplicateChecker, ITransactionalDuplicateChecker
 {
     private readonly DuplicateKeyContext _context;
 
