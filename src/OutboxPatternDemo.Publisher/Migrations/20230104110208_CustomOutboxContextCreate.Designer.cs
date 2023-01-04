@@ -5,45 +5,50 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OutboxPatternDemo.Publisher.BusinessEntityServices.Data;
+using OutboxPatternDemo.Publisher.CustomOutbox;
 
 #nullable disable
 
-namespace OutboxPatternDemo.Publisher.Migrations.BusinessEntity
+namespace OutboxPatternDemo.Publisher.Migrations
 {
-    [DbContext(typeof(BusinessEntityContext))]
-    [Migration("20230104105520_BusinessEntityContextCreate")]
-    partial class BusinessEntityContextCreate
+    [DbContext(typeof(CustomOutboxContext))]
+    [Migration("20230104110208_CustomOutboxContextCreate")]
+    partial class CustomOutboxContextCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("BusinessEntity")
+                .HasDefaultSchema("CustomOutbox")
                 .HasAnnotation("ProductVersion", "7.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OutboxPatternDemo.Publisher.BusinessEntityServices.Data.StateDetailDto", b =>
+            modelBuilder.Entity("OutboxPatternDemo.Publisher.CustomOutbox.CustomOutboxMessage", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<string>("BusinessEntityId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimeStampUtc")
+                    b.Property<DateTime?>("ProcessedTimeUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("RequestedTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StateDetails", "BusinessEntity");
+                    b.ToTable("Messages", "CustomOutbox");
                 });
 #pragma warning restore 612, 618
         }
