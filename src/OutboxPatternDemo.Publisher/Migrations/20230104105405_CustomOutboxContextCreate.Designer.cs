@@ -7,27 +7,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OutboxPatternDemo.Publisher.CustomOutbox;
 
+#nullable disable
+
 namespace OutboxPatternDemo.Publisher.Migrations
 {
     [DbContext(typeof(CustomOutboxContext))]
-    [Migration("20201130164808_CreateCustomOutboxContextTables")]
-    partial class CreateCustomOutboxContextTables
+    [Migration("20230104105405_CustomOutboxContextCreate")]
+    partial class CustomOutboxContextCreate
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("CustomOutbox")
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("OutboxPatternDemo.Publisher.CustomOutbox.CustomOutboxMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)");
@@ -43,7 +48,7 @@ namespace OutboxPatternDemo.Publisher.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", "CustomOutbox");
                 });
 #pragma warning restore 612, 618
         }

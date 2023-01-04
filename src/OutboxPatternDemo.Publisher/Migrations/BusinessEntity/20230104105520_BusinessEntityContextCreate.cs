@@ -1,10 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace OutboxPatternDemo.Publisher.Migrations.BusinessEntity
 {
-    public partial class CreateBusinessEntityTables : Migration
+    /// <inheritdoc />
+    public partial class BusinessEntityContextCreate : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -15,8 +19,7 @@ namespace OutboxPatternDemo.Publisher.Migrations.BusinessEntity
                 schema: "BusinessEntity",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BusinessEntityId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimeStampUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -27,6 +30,7 @@ namespace OutboxPatternDemo.Publisher.Migrations.BusinessEntity
                 });
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

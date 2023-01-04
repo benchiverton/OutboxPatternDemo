@@ -1,10 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace OutboxPatternDemo.Publisher.Migrations
 {
-    public partial class CreateCustomOutboxContextTables : Migration
+    /// <inheritdoc />
+    public partial class CustomOutboxContextCreate : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -28,6 +32,7 @@ namespace OutboxPatternDemo.Publisher.Migrations
                 });
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -49,8 +49,9 @@ The underlying data source for outbox events uses SQL Server. Before you can run
 First, verify that Entity Framework is installed:
 
 ```powershell
-# install Entity Framework tool
+# install + update Entity Framework tool
 dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
 ```
 
 Then, run the following commands from a PowerShell terminal in the `src/OutboxPatternDemo.Publisher` directory:
@@ -68,3 +69,27 @@ and the following commands from the `src/OutboxPatternDemo.Subscriber` directory
 dotnet ef database update --context DuplicateKeyContext
 ```
 
+### Updating migrations
+
+First, verify that Entity Framework is installed:
+
+```powershell
+# install + update Entity Framework tool
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+```
+
+`src/OutboxPatternDemo.Publisher`:
+
+```powershell
+# create contexts
+dotnet ef migrations add <migrationname> --context BusinessEntityContext
+dotnet ef migrations add <migrationname> --context CustomOutboxContext
+```
+
+`src/OutboxPatternDemo.Subscriber`:
+
+```powershell
+# create contexts
+dotnet ef migrations add <migrationname> --context DuplicateKeyContext
+```
