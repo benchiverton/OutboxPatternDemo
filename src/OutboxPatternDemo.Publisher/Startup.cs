@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using OutboxPatternDemo.Publisher.AppointmentNotesServices;
-using OutboxPatternDemo.Publisher.AppointmentNotesServices.Data;
-using OutboxPatternDemo.Publisher.CustomOutbox;
+using OutboxPatternDemo.Publisher.MedicalRecords.Data;
+using OutboxPatternDemo.Publisher.MedicalRecords.Services;
+using OutboxPatternDemo.Publisher.Outboxes.Custom;
 
 namespace OutboxPatternDemo.Publisher;
 

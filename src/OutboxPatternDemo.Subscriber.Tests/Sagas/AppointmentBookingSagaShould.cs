@@ -17,7 +17,7 @@ public class AppointmentBookingSagaShould
     public async Task CompleteIfFollowUpNotRequired()
     {
         var loggerMock = new Mock<ILogger<FollowUpAppointmentSaga>>();
-        var businessEntitySaga = new FollowUpAppointmentSaga(loggerMock.Object)
+        var followUpAppointmentSaga = new FollowUpAppointmentSaga(loggerMock.Object)
         {
             Data = new FollowUpAppointmentSagaData()
         };
@@ -27,16 +27,16 @@ public class AppointmentBookingSagaShould
             new AppointmentNotes(Guid.NewGuid(), AppointmentType.Routine, "Patient was well", false, DateTime.UtcNow)
             );
 
-        await businessEntitySaga.Handle(message, context);
+        await followUpAppointmentSaga.Handle(message, context);
 
-        Assert.True(businessEntitySaga.Completed);
+        Assert.True(followUpAppointmentSaga.Completed);
     }
 
     [Fact]
     public async Task NotCompleteIfFollowUpRequired()
     {
         var loggerMock = new Mock<ILogger<FollowUpAppointmentSaga>>();
-        var businessEntitySaga = new FollowUpAppointmentSaga(loggerMock.Object)
+        var followUpAppointmentSaga = new FollowUpAppointmentSaga(loggerMock.Object)
         {
             Data = new FollowUpAppointmentSagaData()
         };
@@ -46,9 +46,9 @@ public class AppointmentBookingSagaShould
             new AppointmentNotes(Guid.NewGuid(), AppointmentType.Routine, "Patient was not well, check in 2 months", true, DateTime.UtcNow)
             );
 
-        await businessEntitySaga.Handle(message, context);
+        await followUpAppointmentSaga.Handle(message, context);
 
-        Assert.False(businessEntitySaga.Completed);
-        Assert.Contains(message.Details.Id, businessEntitySaga.Data.AppointmentsRequiringFollowUps.Keys);
+        Assert.False(followUpAppointmentSaga.Completed);
+        Assert.Contains(message.Details.Id, followUpAppointmentSaga.Data.AppointmentsRequiringFollowUps.Keys);
     }
 }

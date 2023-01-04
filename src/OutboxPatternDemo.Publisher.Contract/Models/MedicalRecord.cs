@@ -5,17 +5,17 @@ namespace OutboxPatternDemo.Publisher.Contract.Models;
 
 public record MedicalRecord
 {
-    public MedicalRecord(string id, List<AppointmentNotes> stateDetails)
+    public MedicalRecord(string id, List<AppointmentNotes> appointmentNotes)
     {
         PatientName = id;
         HistoricAppointmentNotes = new List<AppointmentNotes>();
-        foreach (var stateDetail in stateDetails)
+        foreach (var appointmentNote in appointmentNotes)
         {
-            HistoricAppointmentNotes.Add(stateDetail);
-            if (LastAppointmentUtc < stateDetail.AppointmentTimeUtc)
+            HistoricAppointmentNotes.Add(appointmentNote);
+            if (LastAppointmentUtc < appointmentNote.AppointmentTimeUtc)
             {
-                LatestSummary = stateDetail.Summary;
-                LastAppointmentUtc = stateDetail.AppointmentTimeUtc;
+                LatestSummary = appointmentNote.Summary;
+                LastAppointmentUtc = appointmentNote.AppointmentTimeUtc;
             }
         }
     }

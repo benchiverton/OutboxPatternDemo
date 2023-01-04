@@ -5,5 +5,5 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
 public interface IDuplicateChecker
 {
-    bool IsDuplicate(Guid stateDetailsId);
+    bool IsDuplicate(Guid id);
 }

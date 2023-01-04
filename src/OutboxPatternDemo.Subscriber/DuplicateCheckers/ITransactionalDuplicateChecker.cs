@@ -5,5 +5,5 @@ namespace OutboxPatternDemo.Subscriber.DuplicateCheckers;
 
 public interface ITransactionalDuplicateChecker
 {
-    bool IsDuplicateTransactional(Guid stateDetailsId, ISqlStorageSession sqlStorageSession);
+    bool IsDuplicateTransactional(Guid id, ISqlStorageSession sqlStorageSession);
 }

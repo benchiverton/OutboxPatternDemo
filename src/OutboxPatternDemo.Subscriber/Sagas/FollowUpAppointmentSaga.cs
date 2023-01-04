@@ -26,7 +26,7 @@ public class FollowUpAppointmentSaga : Saga<FollowUpAppointmentSagaData>,
 
         if (Data.FollowUpRequired())
         {
-            _logger.LogInformation($"Follow up needed for {Data.PatientName} for the following appointments:\n{string.Join('\n', Data.AppointmentsRequiringFollowUps)}");
+            _logger.LogInformation($"Follow up needed for {Data.PatientName} for the following appointments:\n{string.Join('\n', Data.AppointmentsRequiringFollowUps)}\n");
         }
         else
         {

@@ -1,5 +1,6 @@
 using System;
-using OutboxPatternDemo.Subscriber.DuplicateCheckers;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.CircularBuffer;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql;
 using Xunit;
 
 namespace OutboxPatternDemo.Subscriber.Tests.DuplicateCheckers;

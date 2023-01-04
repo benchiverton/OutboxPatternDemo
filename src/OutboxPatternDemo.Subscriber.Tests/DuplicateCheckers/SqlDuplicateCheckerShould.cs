@@ -1,8 +1,8 @@
 using System;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using OutboxPatternDemo.Subscriber.Data;
-using OutboxPatternDemo.Subscriber.DuplicateCheckers;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql.Data;
 using Xunit;
 
 namespace OutboxPatternDemo.Subscriber.Tests.DuplicateCheckers;

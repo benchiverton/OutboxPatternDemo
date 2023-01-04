@@ -9,8 +9,11 @@ using Microsoft.Extensions.Hosting;
 using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBus.Serilog;
-using OutboxPatternDemo.Subscriber.Data;
 using OutboxPatternDemo.Subscriber.DuplicateCheckers;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.CircularBuffer;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.DistributedCache;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql.Data;
 using Serilog;
 using Serilog.Events;
 

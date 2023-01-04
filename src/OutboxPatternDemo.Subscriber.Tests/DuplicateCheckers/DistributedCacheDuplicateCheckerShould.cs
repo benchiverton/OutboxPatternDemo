@@ -3,7 +3,8 @@ using System.Threading;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using OutboxPatternDemo.Subscriber.DuplicateCheckers;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.DistributedCache;
+using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql;
 using Xunit;
 
 namespace OutboxPatternDemo.Subscriber.Tests.DuplicateCheckers;

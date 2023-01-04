@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql.Data;
 
@@ -10,9 +11,11 @@ using OutboxPatternDemo.Subscriber.DuplicateCheckers.Sql.Data;
 namespace OutboxPatternDemo.Subscriber.Migrations
 {
     [DbContext(typeof(DuplicateKeyContext))]
-    partial class DuplicateKeyContextModelSnapshot : ModelSnapshot
+    [Migration("20230104163111_CreateDuplicateKeyContext")]
+    partial class CreateDuplicateKeyContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
