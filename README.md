@@ -28,8 +28,8 @@ This project demo's the Outbox Pattern using NServiceBus (In Memory) and EntityF
 
 | App                          | Purpose                                                      |
 | ---------------------------- | ------------------------------------------------------------ |
-| OutboxPatternDemo.Publisher  | ASP.NET Web API that allows you to update the state of the Business Entity, and uses the Outbox Pattern to guarantee that State Changed events are published at least once |
-| OutboxPatternDemo.Subsriber  | Console App that subscribes to State Changed events, implementing several ways to check for duplicate messages |
+| OutboxPatternDemo.MedicalRecords | ASP.NET Web API that allows you to update medical records, and uses the Outbox Pattern to guarantee that update events are published at least once |
+| OutboxPatternDemo.Bookings  | Console App that subscribes to and de-duplicates messages, and uses a saga to book follow up appointments |
 | OutboxPatternDemo.Monitoring | Runs the Particular Service Platform, which allows you to monitor events within the system |
 
 ### Getting started
@@ -44,7 +44,7 @@ Then, copy your `license.xml` file to `%LocalAppData%/ParticularSoftware`. You m
 
 #### Entity Framework
 
-The underlying data source for outbox events uses SQL Server. Before you can run the OutboxPatternDemo.Publisher/Subscriber apps, you need to create a local database called `OutboxPatternDemo`.
+The underlying data source for outbox events uses SQL Server. Before you can run the OutboxPatternDemo.MedicalRecords/Bookings apps, you need to create a local database called `OutboxPatternDemo`.
 
 First, verify that Entity Framework is installed:
 
@@ -54,15 +54,15 @@ dotnet tool install --global dotnet-ef
 dotnet tool update --global dotnet-ef
 ```
 
-Then, run the following commands from a PowerShell terminal in the `src/OutboxPatternDemo.Publisher` directory:
+Then, run the following commands from a PowerShell terminal in the `src/OutboxPatternDemo.MedicalRecords` directory:
 
 ```powershell
 # create contexts
-dotnet ef database update --context BusinessEntityContext
+dotnet ef database update --context MedicalRecordContext
 dotnet ef database update --context CustomOutboxContext
 ```
 
-and the following commands from the `src/OutboxPatternDemo.Subscriber` directory:
+and the following commands from the `src/OutboxPatternDemo.Bookings` directory:
 
 ```powershell
 # create contexts
@@ -79,15 +79,15 @@ dotnet tool install --global dotnet-ef
 dotnet tool update --global dotnet-ef
 ```
 
-`src/OutboxPatternDemo.Publisher`:
+`src/OutboxPatternDemo.MedicalRecords`:
 
 ```powershell
 # create contexts
-dotnet ef migrations add <migrationname> --context BusinessEntityContext
+dotnet ef migrations add <migrationname> --context MedicalRecordContext
 dotnet ef migrations add <migrationname> --context CustomOutboxContext
 ```
 
-`src/OutboxPatternDemo.Subscriber`:
+`src/OutboxPatternDemo.Bookings`:
 
 ```powershell
 # create contexts
