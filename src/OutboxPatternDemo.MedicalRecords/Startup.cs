@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
@@ -9,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using OutboxPatternDemo.MedicalRecords.MedicalRecords.Data;
 using OutboxPatternDemo.MedicalRecords.MedicalRecords.Services;
 using OutboxPatternDemo.MedicalRecords.Outboxes.Custom;
+using OutboxPatternDemo.MedicalRecords.Swagger;
 
 namespace OutboxPatternDemo.MedicalRecords;
 
@@ -21,7 +23,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
 
@@ -35,6 +37,7 @@ public class Startup
 
         services.AddSwaggerGen(c =>
         {
+            c.SchemaFilter<EnumSchemaFilter>();
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "OutboxPatternDemo Publisher", Version = "v1" });
         });
     }
