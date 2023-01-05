@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OutboxPatternDemo.Bookings.Contract\OutboxPatternDemo.Bookings.Contract.csproj" />
     <ProjectReference Include="..\OutboxPatternDemo.MedicalRecords.Contract\OutboxPatternDemo.MedicalRecords.Contract.csproj" />
   </ItemGroup>
 
