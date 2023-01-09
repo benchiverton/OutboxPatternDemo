@@ -27,11 +27,11 @@ public class Startup
 
         var dbConnection = new SqlConnection("Data Source=localhost;Initial Catalog=OutboxPatternDemo;Integrated Security=SSPI;TrustServerCertificate=True");
 
-        services.AddEntityFrameworkSqlServer().AddDbContext<MedicalRecordContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
+        services.AddDbContext<MedicalRecordContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
         services.AddTransient<IMedicalRecordCommandService, MedicalRecordCommandService>();
         services.AddTransient<IMedicalRecordQueryService, MedicalRecordQueryService>();
 
-        services.AddEntityFrameworkSqlServer().AddDbContext<CustomOutboxContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
+        services.AddDbContext<CustomOutboxContext>(o => o.UseSqlServer(dbConnection), ServiceLifetime.Transient);
         services.AddTransient<IOutboxMessageBus, CustomOutboxMessageBus>();
         services.AddHostedService<CustomOutboxProcessor>();
 
