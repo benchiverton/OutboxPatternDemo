@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "OutboxPatternDemo.Bookings": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "development"
+      }
+    }
+  }
+}

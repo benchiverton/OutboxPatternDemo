@@ -1,21 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30711.63
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Publisher", "OutboxPatternDemo.Publisher\OutboxPatternDemo.Publisher.csproj", "{57AD77E8-FB70-46CA-9215-3570205B8145}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.MedicalRecords", "OutboxPatternDemo.MedicalRecords\OutboxPatternDemo.MedicalRecords.csproj", "{57AD77E8-FB70-46CA-9215-3570205B8145}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Monitoring", "OutboxPatternDemo.Monitoring\OutboxPatternDemo.Monitoring.csproj", "{8E39A12E-7D7C-466E-B761-C62578939E1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Publisher.Contract", "OutboxPatternDemo.Publisher.Contract\OutboxPatternDemo.Publisher.Contract.csproj", "{A0E5C6EC-DAB6-4EFE-B29F-53EEFAF19531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.MedicalRecords.Contract", "OutboxPatternDemo.MedicalRecords.Contract\OutboxPatternDemo.MedicalRecords.Contract.csproj", "{A0E5C6EC-DAB6-4EFE-B29F-53EEFAF19531}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publisher", "Publisher", "{29522EA5-D7E8-4872-A66D-BA88FF3E4E1C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MedicalRecords", "MedicalRecords", "{29522EA5-D7E8-4872-A66D-BA88FF3E4E1C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Subscriber", "Subscriber", "{1C4F6BCD-7BDE-4916-8BE8-AEAF9B86E473}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bookings", "Bookings", "{1C4F6BCD-7BDE-4916-8BE8-AEAF9B86E473}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Subscriber", "OutboxPatternDemo.Subscriber\OutboxPatternDemo.Subscriber.csproj", "{0590C4B3-2972-4EBC-AF42-5C4D6B98DC0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Bookings", "OutboxPatternDemo.Bookings\OutboxPatternDemo.Bookings.csproj", "{0590C4B3-2972-4EBC-AF42-5C4D6B98DC0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutboxPatternDemo.Subscriber.Tests", "OutboxPatternDemo.Subscriber.Tests\OutboxPatternDemo.Subscriber.Tests.csproj", "{7067696E-0336-4341-9ED6-78EF145105D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Bookings.Tests", "OutboxPatternDemo.Bookings.Tests\OutboxPatternDemo.Bookings.Tests.csproj", "{7067696E-0336-4341-9ED6-78EF145105D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxPatternDemo.Bookings.Contract", "OutboxPatternDemo.Bookings.Contract\OutboxPatternDemo.Bookings.Contract.csproj", "{35EDB24E-75EF-4C00-878C-FA63B3999270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{7067696E-0336-4341-9ED6-78EF145105D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7067696E-0336-4341-9ED6-78EF145105D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7067696E-0336-4341-9ED6-78EF145105D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35EDB24E-75EF-4C00-878C-FA63B3999270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35EDB24E-75EF-4C00-878C-FA63B3999270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35EDB24E-75EF-4C00-878C-FA63B3999270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35EDB24E-75EF-4C00-878C-FA63B3999270}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +58,7 @@ Global
 		{A0E5C6EC-DAB6-4EFE-B29F-53EEFAF19531} = {29522EA5-D7E8-4872-A66D-BA88FF3E4E1C}
 		{0590C4B3-2972-4EBC-AF42-5C4D6B98DC0A} = {1C4F6BCD-7BDE-4916-8BE8-AEAF9B86E473}
 		{7067696E-0336-4341-9ED6-78EF145105D7} = {1C4F6BCD-7BDE-4916-8BE8-AEAF9B86E473}
+		{35EDB24E-75EF-4C00-878C-FA63B3999270} = {1C4F6BCD-7BDE-4916-8BE8-AEAF9B86E473}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD835491-2BEC-4DE3-AA62-DF4F329CBAEE}
