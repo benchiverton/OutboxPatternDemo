@@ -20,6 +20,8 @@ public class Program
 
     public static async Task Main(string[] args)
     {
+        Console.Title = "Medical Records";
+
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()

@@ -27,6 +27,8 @@ public class Program
 
     public static async Task Main(string[] args)
     {
+        Console.Title = "Bookings";
+
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Fatal)
             .Enrich.FromLogContext()
