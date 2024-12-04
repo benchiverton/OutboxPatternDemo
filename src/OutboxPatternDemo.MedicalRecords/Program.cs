@@ -48,6 +48,7 @@ public class Program
             .UseNServiceBus(ctx =>
             {
                 var endpointConfig = new EndpointConfiguration("OutboxPatternDemo.MedicalRecords");
+                endpointConfig.UseSerialization<SystemJsonSerializer>();
                 endpointConfig.EnableInstallers();
 
                 var useAzureServiceBus = ctx.Configuration.GetValue<bool>("UseAzureServiceBus");

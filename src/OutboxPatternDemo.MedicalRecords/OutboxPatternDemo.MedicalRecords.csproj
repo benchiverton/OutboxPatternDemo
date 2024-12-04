@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>0cb58734-5e37-4606-982a-78acd4c6bb7b</UserSecretsId>
   </PropertyGroup>
 
@@ -10,21 +10,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="NServiceBus" Version="8.0.2" />
-    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
-    <PackageReference Include="NServiceBus.Metrics.ServiceControl" Version="4.0.0" />
-    <PackageReference Include="NServiceBus.Persistence.Sql" Version="7.0.0" />
-    <PackageReference Include="NServiceBus.Serilog" Version="9.0.1" />
-    <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="3.1.2" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NServiceBus" Version="9.2.3" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="NServiceBus.Metrics.ServiceControl" Version="5.0.0" />
+    <PackageReference Include="NServiceBus.Persistence.Sql" Version="8.1.0" />
+    <PackageReference Include="NServiceBus.Serilog" Version="12.0.1" />
+    <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="4.2.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>

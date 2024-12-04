@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>0cb58734-5e37-4606-982a-78acd4c6bb7b</UserSecretsId>
   </PropertyGroup>
 
@@ -19,20 +19,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
-    <PackageReference Include="NServiceBus" Version="8.0.2" />
-    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
-    <PackageReference Include="NServiceBus.Metrics.ServiceControl" Version="4.0.0" />
-    <PackageReference Include="NServiceBus.Persistence.Sql" Version="7.0.0" />
-    <PackageReference Include="NServiceBus.Serilog" Version="9.0.1" />
-    <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="3.1.2" />
-    <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="NServiceBus" Version="9.2.3" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="NServiceBus.Metrics.ServiceControl" Version="5.0.0" />
+    <PackageReference Include="NServiceBus.Persistence.Sql" Version="8.1.0" />
+    <PackageReference Include="NServiceBus.Serilog" Version="12.0.1" />
+    <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="4.2.3" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
